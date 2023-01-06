@@ -1,0 +1,34 @@
+il programma e' formato solo dalla funzione "generate_snake"
+
+
+generate_snake: 
+Dichiaro un dizionario contente i comandi possibili per il serpente come chiave e come valore il movimento che ne risulta in addizione sugli assi (esempio: "SE":(1,1),"W":(0,-1),COMMAND:(+x,+y)) in seguito traduco 
+l'immagine in una lista di pixel contenente i valori rgb dei singoli pixel con la funzione "load()" della libreria "images". Dalla lista di pixel calcolo, attraverso la funzione "len()", l'altezza e la lunghezza dell'immagine 
+e finisco assegnando la prima posizione del serpente come primo elemento di una lista di tuple che definira' il corpo del serpente stesso(quindi la posizione di tutti i pixel verdi nell'immagine) e colorando questa posizione
+di verde. 
+
+Finita l'istanziazione delle variabili eseguo un ciclo for-each sullo split della stringa dei comandi dati come input e ne derivo le coordinate della prossima posizione del serpente effettuando un calcolo che 
+(attraverso il dizionario istanziato che associa il comando ai valori di movimento del serpente) somma la posizione attuale della testa del serpente al movimento che questo deve fare, il risultati sono poi messi in modulo con la 
+lunghezza dell'immagine per l'asse x e con l'altezza dell immagine per l'asse y. I risultati vengono assegnati a delle variabili apposite (tipo: xNouvaPosizione, yNouvaPosizione).
+
+Calcolati la x e la y successive del serpente procedo a fare i controlli sulla validita' del movimento, inizio verificando se la testa del serpente si e' mossa in obliquo scontrandosi con se stesso facendo un controllo 
+sul colore dei pixel che circondano la nuova posizione della testa, utilizzando la lista dei pixel con indici la x e la y della nuova e della vecchia posizione in modo alternato 
+(esempio: lista[yNouvaPosizione][xVecchiaPosione] e lista[yVecchiaPosione][xNouvaPosizione]), questo controllo in oltre viene effettuato solo se la stringa di comando passata ha una lunghezza("len()") di 2, se il controllo
+rileva che il serpente e' passato in obliquo sopra se stesso(quindi se riscontro dei pixel colorati di verde su entrambi i lati della nuova posizione della testa) allora blocco il ciclo(break) altrimenti proseguo.
+
+Dopo aver fatto il controllo sulla validita' dell'eventuale movimento obliquo controllo la validita' della nuova posizione della testa del serpente, dichiarando una variabile alla quale assegno il colore della nuova posizione
+del serpente per facilitare i controlli ed evitare di richiamare la stessa posizione della lista dei pixel piu' volte(quindi anche per efficienza). Verifico quindi che la nuova posizione del serpente non abbia ne il 
+colore del serpente ne quello degli ostacoli e se queste condizioni vengono rispettate proseguo nell'esecuzione, altrimenti esco dal ciclo(break). 
+
+Se non esco dal ciclo proseguo aggiungendo la nuova posizione della testa del serpente alla lista che ne definisce il corpo(questo attraverso il metodo "append()" per far si che la nuova posizione venga inserita all'inizio
+della lista) e coloro la posizione della nuova testa di verde. In seguito controllo, attraverso la variabile contenente il "vecchio" colore della nuova posizione, se il colore della nuova posizione della testa 
+corrispondeva a quello del cibo e se e' cosi(dato che il serpente aumenta di "+1" la sua lunghezza) non devo modificare ne la lista del serpente ne il colore del pixel di coda del serpente e quindi ricomincio dall'inizio 
+dell'iterazione(continue), se invece il colore non corrisponde a quello del cibo utilizzo il primo elemento della lista del serpente (quindi la coda) per avere le coordinate di dove colorare la lista dei pixel di grigio cosi' da
+ottenere la scia (sovrascrivendo quindi il verde della coda del serpente), qui elimino anche il primo elemento della lista che definisce il corpo del serpente ("y,x=pop(0)") cosi' da avere il secondo elemento, che sara' 
+adesso il primo, ad indicare le nuove coordinate della coda del serpente. Da qui l'iterazione ricomincia.
+
+Una volta terminata l'iterazione (sia con blocco prematuro, causa contatto con ostacoli o con se stesso, che senza) dei comandi salvo l'immagine attraverso il metodo "save()" della libreria "images" e 
+ritorno la lunghezza "len()" della lista che rappresenta il corpo del serpente.
+
+Nota: i colori nel codice vengono dichiarati all'inizio della funzione 
+Nota: uso solo una funzione per scelta, dato che il codice in se e' molto leggibile e ritengo che dividendolo ansi diminusca la leggibilita'(senza un grande cambiamento nella complessita').

@@ -1,0 +1,18 @@
+xkcd_to_list_of_weights: Per effettuare la scomposizione della stringa in una lista d'interi effettuo una sostituzione dei singoli valori diversi da "0" con una stringa tipo ",n"
+da qui poi effettuo una divisione della stringa risultante per il carattere "," e una conversione in int del risultato di ogni divisione i quali vengono quindi convertiti in una lista. 
+Soluzione scelta per minimizzare i tempi usando principalmente metodi di sistema, e quindi ottimizzati.
+
+
+list_of_weights_to_number: Per effettuare la somma degli elementi della lista di input effettuo un controllo relativo al valore massimo (che all'inizio viene assegnato all'ultimo elemento della lista)
+incontrato fino al determinato momento del ciclo per scegliere se fare una somma (che incrementa il risultato della funzione, in caso il valore sia uguale a quello di controllo), una sottrazione 
+(che decrementa il risultato della funzione, in caso il valore sia inferiore a quello di controllo) o una somma e 
+incremento(che incrementa il risultato della funzione e incrementa, cioè cambia per l'elemento della lista, il valore con il quale vengono 
+effettuati i controlli per i cicli successivi, in caso il valore sia superiore a quello di controllo) cosi' da effettuare una 
+somma dei valori crescenti o dei valori uguali(se uno dopo l'altro) e una sottrazione dei valori decrescenti.
+Soluzione scelta per evitare di effettuare operazioni di controllo direttamente attraverso altri elementi della lista.
+
+
+decode_value: semplice applicazione in sequenza di entrambe le funzioni precedenti (xkcd_to_list_of_weights e list_of_weights_to_number).
+
+
+decode_XKCD_tuple: applicazione di "decode_value" per ogni elemento della lista di stringhe con ordinamento della lista d'interi risultante e seguente slicing per selezionarne i massimi valori.

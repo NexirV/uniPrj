@@ -1,0 +1,24 @@
+L'algoritmo si divide in 3 funzioni: listCreation, dictCreation e most_frequent_chars
+
+
+most_frequent_chars:
+La funzione most_frequent_chars come prima cosa richiama la funzione listCreation passando come parametro la posizione del primo file, fornito come input a "most_frequent_chars" stessa, per creare 
+una lista di stringhe dalle stringhe contenute nei file, il risultato ottenuto viene convertito effettuando un sorted inverso, per la lunghezza delle stringhe della lista(stringhe piu' lunghe per prime), la lista ordinata 
+poi viene convertita in tupla per agevolarne gli scorrimenti, in seguito effettuo un for-range per la lunghezza(len) della prima stringa(quindi quella con lunghezza massima) nel quale richiamo la funzione 
+"dictCreation" alla quale passo come parametri l'indice di posizione del ciclo for-range (il quale corrisponde alla colonna delle stringhe di cui sto calcolando la frequenza dei caratteri) e la tupla di stringhe creata 
+in precedenza, effettuo poi la "concatenazione" dei risultati(e quindi dei caratteri con massima frequenza nella loro specifica colonna) che ricevo dalla funzione "dictCreation" che ritorno poi come risultato finale
+
+listCreation:
+La funzione listCreation presa in input la stringa che individua la posizione del primo file txt effettua la lettura del file, dal file viene salvata in una variabile apposita la stringa che indica la posizione del file successivo 
+e vengono aggiunte a una lista le restanti stringhe del file, proseguendo in ciclo (iterazione do while) fino alla lettura del file successivo che coincide con quello di partenza, da qui ci sara' il return della lista di 
+strighe composta. 
+Nota: ho scelto una lista perche' piu' efficiente dentro il metodo sorted che viene usato in "most_frequent_chars".
+Nota: non considero la frequenza delle parole(casi di doppioni) per scelta.
+
+dictCreation:
+La funzione dictCreation prende in input una posizione (relativa alla posizione della "colonna" raggiunta nella creazione della stringa risultato di most_frequent_chars) che corrisponde a un intero e la tupla di stringhe 
+creata in "listCreation" ed riconvertita in "most_frequent_chars", effettuo quindi un ciclo foreach per tutti gli elementi(caratteri delle stringhe) nella posizione ricevuta, fino o alla fine della tupla di stringhe o 
+all'invalidità dell'indice della stringa dopo la quale interrompo il ciclo, nel ciclo inserisco la frequenza delle lettere in un dizionario(key=lettera:value=frequenza) attraverso incremento, una volta finita l'iterazione della tupla 
+di stringhe calcolo il valore massimo delle frequenze(cioe' il value massimo associato alle chiavi del dizionario) dal quale derivo le lettere(chiavi del dizionario) aventi lo stesso valore massimo di 
+frequenza creandone una tupla, attraverso il metodo min ne individuo la lettera minore nel ordine unicode e la passo come risultato della funzione.
+Nota: non passo come input direttamente la colonna da iterare perche' meno efficiente
