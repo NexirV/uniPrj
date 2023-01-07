@@ -1,0 +1,53 @@
+il programma si divide in 6 funzioni: replaceDati, fileReader, result, validMove, resultCreate, dumbothello
+
+
+
+replaceDati:
+prende una lista di stringhe contenente le posizioni delle pedine dei giocatori della tavola (passata nel ciclo di lettura di "fileReader") e, attraverso un ciclo di lettura della lista, crea una lista corrispettiva  
+traducendo i dati attraverso un dizionario (tipo:("B":True,"W":False,".":None)). Inoltre ritorna anche le posizioni della riga che non sono occupate da un giocatore(None) in una lista apposita(tipo:spazzi.append(y,x)).
+Nota: questo per facilitare e velocizzare le operazioni di controllo e selezione del giocatore "giocante", anche se sacrifico la "versatilita''" del codice.
+
+
+fileReader:
+prende in input il nome del file da cui reperire la tavola di gioco e, attraverso la sua lettura riga per riga, chiama la funzione "replaceDati" dalla quale poi riceve le posizioni vuote della riga, che verranno salvate 
+in una lista attraverso l'estensione di questa("list.extend()"), e la lista della riga tradotta attraverso il dizionario di conversione, questa viene salvata dentro una matrice che ne identifica la "y". Queste due liste
+verranno usate come risultato della funzione una volta terminata la lettura del file.
+
+
+result:
+prende in input la tavola di gioco e effetua il conto del numero di pedine presenti di entrambi i giocatori sul tavolo, il giocatore con piu' pedine fara' tornare il risultato in base alla posizione che questo occupa sulla
+tupla richiesta come risultato, (quindi: se vince il bianco il return sara' uguale a 1, se vince il nero il return sara' uguale a 0 e se c'e' un pareggio ritorna 2). 
+Questo conto viene effettuato attraverso un ciclo che conta(count()) il numero di True e False nella riga e controlla anche se uno dei due risultati ha superato la meta del numero di "caselle" presenti nella tavola,
+cosi' da interrompere subito il ciclo e ritornare questo come risultato evitando conteggi inutili.
+
+
+validMove:
+prede in input la tavola da gioco, il giocatore e la lista delle caselle vuote da cui controlla se tra le posizioni salvate nella lista delle caselle vuote sono presenti posizioni valide a essere occupate dal giocatore,
+questo viene effettuato facendo un ciclo della lista delle caselle vuote e al suo interno un altro ciclo che controlla se queste caselle nel loro intorno hanno delle caselle occupate dall'avversario.
+Nel caso una casella vuota risulti valida viene creata una copia della tavola con cambiate le caselle che vengono modificate dall'occupazione della casella vuota da parte del giocatore, questa lista viene inserita 
+in un altra lista di risultato, che viene usata come risultato della funzione al termine del ciclo della lista di spazi, e viene affiancata dalla posizione della casella vuota che e' stata occupata
+(tipo: ris.append((y,x,tavolaAggiornata)), "y" e "x" qui ritornate verranno usate per cancellare la casella vuota(dato che adesso non lo e' piu) nella funzione "resultCreate".
+
+
+resultCreate:
+prende in input la tavola da gioco, la lista delle caselle vuote e il giocatore di "turno", da questo crea una lista di risultato generale(inizializzata come:ris=[0,0,0]) e richiama la funzione "validMove".
+Da qui ci sono due opzioni per la ricorsione:
+
+LEAF: se il risultato di "validMove" e' vuoto, richiama la funzione "result".
+il risultato di result viene usato come indice per incrementare la lista ris(tipo: ris[result()]=+1), da qui viene poi ritornata la lista di risultato
+
+NODE: Se il risultato di "validMove" non e' vuoto avvio un ciclo per i risultati passati da "validMove".
+All'interno di questo ciclo viene creata una copia della lista di spazi e rimossa da questa copia la posizione di "y" e "x", in seguito la funzione si "auto richiama" passando come parametri la tavola presente nel risultato
+di "validMove", la lista di spazi appena creata, il "not" del giocatore (cosi' da avere False per il giocatore successivo in caso quello attuale fosse True), la lista di risultato ottenuta della ricorsione(e quindi dall'auto
+richiamo) viene sommata con il "ris" generale della funzione e al termine del ciclo il "ris" viene passato come risultato.
+Nota: qui nello specifico uso una somma del risultato della ricorsione "diretta" (tipo: ris[0]=risRicorsione[0]) perche' piu' efficiente di un map con zip o di una listcomprehension.
+
+
+dumbothello:
+prende in input il filename che usa come parametro per richiamare la funzione "fileReader" dalla quale ricava la tavola di gioco iniziale e la lista degli spazi vuoti iniziale, questi vengono usati come parametri per 
+richiamare "resultCreate", insieme a True(per fare partire per primo nella funzione "resultCreate" il giocatore nero). Il risultato che viene passato da "resultCreate" viene poi convertito i tupla e usato come risultato 
+della funzione.
+
+Nota: nel programma non uso un dizionari per salvare i casi avuti, e quindi sfruttarlo per  evitare di effettuare operazioni su le ridondanze aventi risultati gia' noti, per scelta.
+Nota: per la funzione "result" il valore che rappresenta la meta della matrice viene calcolato in "dumbothello" e passato come parametro per la funzione "resultCreate", che poi lo ripassera' a "result" questo perche' piu'
+efficente che calcolarlo a ogni richiamo di "result".
